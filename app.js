@@ -2,6 +2,7 @@ var http = require('http');
 var path = require('path');
 var express = require('express');
 var handlebars  = require('express-handlebars').create({defaultLayout: false});
+var sassMiddleware = require('node-sass-middleware');
 var morgan = require('morgan');
 var request = require('request');
 var app = module.exports = express();
@@ -13,6 +14,12 @@ var cors = require('cors');
 // Configure app
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
+app.use(sassMiddleware({
+  src: __dirname + '/sass',
+  dest: __dirname + '/public',
+  debug: true,
+  outputStyle: 'compressed'
+}));
 
 // Setup middleware
 app.use(cors());

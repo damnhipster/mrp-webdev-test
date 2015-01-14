@@ -30,7 +30,10 @@ var ProductList = React.createClass({displayName: "ProductList",
   render: function () {
     var productNodes = this.state.products.map(function (product) {
       return (
-        React.createElement("li", null, product.name)
+        React.createElement("li", null, 
+          React.createElement("img", {src: product.image}), 
+          React.createElement("p", null, product.name)
+        )
       );
     });
     return (

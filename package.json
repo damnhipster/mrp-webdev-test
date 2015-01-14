@@ -14,7 +14,8 @@
     "express-handlebars": "^1.1.0",
     "morgan": "^1.5.0",
     "request": "^2.51.0",
-    "cors": "^2.5.2"
+    "cors": "^2.5.2",
+    "node-sass-middleware": "^0.4.0"
   },
   "devDependencies": {
     "zombie": "^2.0.4",
