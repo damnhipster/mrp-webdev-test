@@ -6,8 +6,17 @@
   box-sizing: border-box;
 }
 
+ul {
+  text-align: center;
+}
+
 .product {
   width: 33%;
   display: inline-block;
   min-width: 300px;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
 }

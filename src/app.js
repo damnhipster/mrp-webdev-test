@@ -3,7 +3,7 @@ var Shop = React.createClass({
   render: function () {
     return (
       <div id='shop'>
-        <h1>Mr. Porters' Shop</h1>
+        <h1 className="page-title">Mr. Porters' Shop</h1>
         <ProductList source={this.props.source}/>
       </div>
     );
@@ -32,7 +32,13 @@ var ProductList = React.createClass({
       return (
         <li className="product">
           <img src={product.image}/>
-          <p>{product.name}</p>
+          <p>
+            <span className="inactive">{product.designer}</span>
+            <br/>
+            <span className="intro smaller">{product.name}</span>
+            <br/>
+          </p>
+            <span>{product.price}</span>
         </li>
       );
     });

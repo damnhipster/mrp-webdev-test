@@ -3,7 +3,7 @@ var Shop = React.createClass({displayName: "Shop",
   render: function () {
     return (
       React.createElement("div", {id: "shop"}, 
-        React.createElement("h1", null, "Mr. Porters' Shop"), 
+        React.createElement("h1", {className: "page-title"}, "Mr. Porters' Shop"), 
         React.createElement(ProductList, {source: this.props.source})
       )
     );
@@ -32,7 +32,13 @@ var ProductList = React.createClass({displayName: "ProductList",
       return (
         React.createElement("li", {className: "product"}, 
           React.createElement("img", {src: product.image}), 
-          React.createElement("p", null, product.name)
+          React.createElement("p", null, 
+            React.createElement("span", {className: "inactive"}, product.designer), 
+            React.createElement("br", null), 
+            React.createElement("span", {className: "intro smaller"}, product.name), 
+            React.createElement("br", null)
+          ), 
+            React.createElement("span", null, product.price)
         )
       );
     });
