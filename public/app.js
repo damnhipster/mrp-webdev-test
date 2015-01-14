@@ -30,7 +30,7 @@ var ProductList = React.createClass({displayName: "ProductList",
   render: function () {
     var productNodes = this.state.products.map(function (product) {
       return (
-        React.createElement("li", null, 
+        React.createElement("li", {className: "product"}, 
           React.createElement("img", {src: product.image}), 
           React.createElement("p", null, product.name)
         )

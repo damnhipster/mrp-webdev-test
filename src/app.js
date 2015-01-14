@@ -30,7 +30,7 @@ var ProductList = React.createClass({
   render: function () {
     var productNodes = this.state.products.map(function (product) {
       return (
-        <li>
+        <li className="product">
           <img src={product.image}/>
           <p>{product.name}</p>
         </li>
