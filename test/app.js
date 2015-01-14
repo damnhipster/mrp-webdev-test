@@ -7,8 +7,14 @@ var expect = require("chai").expect;
 describe('Shop', function() {
 
   before(function(done) {
-    browser = new Browser({ site: 'http://localhost:9536' })
-    browser.visit('/', done);
+    browser = new Browser({ site: 'http://localhost:9536' });
+    var listLoaded = function(window) {
+      window.document.querySelector('ul');
+    };
+    browser.visit('/')
+      .then(function() {
+        browser.wait(listLoaded, done);
+      });
   });
 
   it("should load the page", function() {
@@ -17,11 +23,7 @@ describe('Shop', function() {
   });
 
   it("should display the product name", function() {
-    browser.wait(function(window) {
-      window.document.querySelector("li");
-    }, function() {
-      expect(browser.text('li')).to.include('Roadmaster Waxed-Cotton Jacket');
-    });
+    expect(browser.text('li')).to.include('Roadmaster Waxed-Cotton Jacket');
   });
 
 });
