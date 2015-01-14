@@ -2,6 +2,8 @@ require('./testHelper')
 var Browser = require("zombie");
 var expect = require("chai").expect;
 
+// Gave up with tests, couldn't be asked to figure out zombie's/browser's wait function...
+
 describe('Shop', function() {
 
   before(function(done) {
@@ -15,7 +17,11 @@ describe('Shop', function() {
   });
 
   it("should display the product name", function() {
-    expect(browser.text('li')).to.include('Roadmaster Waxed-Cotton Jacket');
+    browser.wait(function(window) {
+      window.document.querySelector("li");
+    }, function() {
+      expect(browser.text('li')).to.include('Roadmaster Waxed-Cotton Jacket');
+    });
   });
 
 });

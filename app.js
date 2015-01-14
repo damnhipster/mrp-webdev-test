@@ -8,16 +8,19 @@ var app = module.exports = express();
 var api = require('./routes/api');
 var router = express.Router();
 var port = process.env.PORT || 3000;
+var cors = require('cors');
 
 // Configure app
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
 // Setup middleware
+app.use(cors());
 app.use(morgan('combined'));
 app.use(router);
 app.use('/api/', api);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bower_components',  express.static(path.join(__dirname, 'bower_components')));
 
 // Setup routes
 router.get('/', function (req, res, next) {

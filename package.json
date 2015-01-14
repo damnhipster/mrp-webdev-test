@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha --watch",
-    "start": "nohup jsx --watch components/ public/ & node app"
+    "start": "nohup jsx --watch src/ public/ & node app"
   },
   "author": "",
   "license": "ISC",
@@ -13,12 +13,12 @@
     "express": "^4.10.6",
     "express-handlebars": "^1.1.0",
     "morgan": "^1.5.0",
-    "request": "^2.51.0"
+    "request": "^2.51.0",
+    "cors": "^2.5.2"
   },
   "devDependencies": {
     "zombie": "^2.0.4",
     "mocha": "^1.21.4",
     "chai": "^1.9.1"
   }
-
 }
