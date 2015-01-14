@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha --watch",
-    "start": "node app"
+    "start": "nohup jsx --watch components/ public/ & node app"
   },
   "author": "",
   "license": "ISC",
