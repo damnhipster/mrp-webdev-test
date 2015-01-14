@@ -7,6 +7,7 @@ var request = require('request');
 var app = module.exports = express();
 var api = require('./routes/api');
 var router = express.Router();
+var port = process.env.PORT || 3000;
 
 // Configure app
 app.engine('handlebars', handlebars.engine);
@@ -21,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Setup routes
 router.get('/', function (req, res, next) {
     // Fetch from mock API
-    request('http://localhost:3000/api/products/', function(error, response, body) {
+    request('http://localhost:'+port+'/api/products/', function(error, response, body) {
         if (error) {
             return next(error);
         }
@@ -30,6 +31,6 @@ router.get('/', function (req, res, next) {
 });
 
 // Listen for incoming requests
-http.createServer(app).listen(3000, function () {
-    console.log('Listening for incoming requests at http://localhost:3000/')
+http.createServer(app).listen(port, function () {
+    console.log('Listening for incoming requests at http://localhost:'+port)
 });
