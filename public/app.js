@@ -19,10 +19,9 @@ var ProductList = React.createClass({displayName: 'ProductList',
 
   componentDidMount: function() {
     $.get(this.props.source, function(products) {
-      var firstProduct = products.data[0];
       if (this.isMounted()) {
         this.setState({
-          products: [firstProduct]
+          products: products.data
         });
       }
     }.bind(this));
