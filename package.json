@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha --watch",
-    "start": "nohup jsx --watch src/ public/ & node app"
+    "start": "nohup ./node_modules/.bin/jsx --watch src/ public/ & node app"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "zombie": "^2.0.4",
     "mocha": "^1.21.4",
-    "chai": "^1.9.1"
+    "chai": "^1.9.1",
+    "react-tools": "^0.12.2"
   }
 }

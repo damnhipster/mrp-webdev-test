@@ -1,16 +1,16 @@
 /** @jsx React.DOM */
-var Shop = React.createClass({displayName: 'Shop',
+var Shop = React.createClass({displayName: "Shop",
   render: function () {
     return (
-      React.DOM.div({id: "shop"}, 
-        React.DOM.h1(null, "Mr. Porters' Shop"), 
-        ProductList({source: this.props.source})
+      React.createElement("div", {id: "shop"}, 
+        React.createElement("h1", null, "Mr. Porters' Shop"), 
+        React.createElement(ProductList, {source: this.props.source})
       )
     );
   }
 });
 
-var ProductList = React.createClass({displayName: 'ProductList',
+var ProductList = React.createClass({displayName: "ProductList",
   getInitialState: function() {
     return {
       products: []
@@ -30,11 +30,11 @@ var ProductList = React.createClass({displayName: 'ProductList',
   render: function () {
     var productNodes = this.state.products.map(function (product) {
       return (
-        React.DOM.li(null, product.name)
+        React.createElement("li", null, product.name)
       );
     });
     return (
-      React.DOM.ul(null, 
+      React.createElement("ul", null, 
         productNodes
       )
     );
@@ -44,6 +44,6 @@ var ProductList = React.createClass({displayName: 'ProductList',
 var source = "http://localhost:3000/api/products/?offset=0&limit=60";
 
 React.render(
-  Shop({source: source}),
+  React.createElement(Shop, {source: source}),
   document.getElementById('app')
 );
