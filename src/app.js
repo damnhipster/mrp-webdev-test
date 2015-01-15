@@ -30,22 +30,31 @@ var ProductList = React.createClass({
   render: function () {
     var productNodes = this.state.products.map(function (product) {
       return (
-        <li className="product">
-          <ProductImage product={product}/>
-          <p>
-            <span className="inactive">{product.designer}</span>
-            <br/>
-            <span className="intro smaller">{product.name}</span>
-            <br/>
-          </p>
-            <span>{product.price}</span>
-        </li>
+        <Product product={product}/>
       );
     });
     return (
       <ul>
         {productNodes}
       </ul>
+    );
+  }
+});
+
+var Product = React.createClass({
+  render: function() {
+    var product = this.props.product;
+    return (
+      <li className="product">
+        <ProductImage product={product}/>
+        <p>
+          <span className="inactive">{product.designer}</span>
+          <br/>
+          <span className="intro smaller">{product.name}</span>
+          <br/>
+        </p>
+          <span>{product.price}</span>
+      </li>
     );
   }
 });
@@ -65,7 +74,6 @@ var ProductImage = React.createClass({
 });
 
 var source = "/api/products/?offset=0&limit=60";
-  debugger;
 
 React.render(
   <Shop source={source}/>,

@@ -30,21 +30,30 @@ var ProductList = React.createClass({displayName: "ProductList",
   render: function () {
     var productNodes = this.state.products.map(function (product) {
       return (
-        React.createElement("li", {className: "product"}, 
-          React.createElement(ProductImage, {product: product}), 
-          React.createElement("p", null, 
-            React.createElement("span", {className: "inactive"}, product.designer), 
-            React.createElement("br", null), 
-            React.createElement("span", {className: "intro smaller"}, product.name), 
-            React.createElement("br", null)
-          ), 
-            React.createElement("span", null, product.price)
-        )
+        React.createElement(Product, {product: product})
       );
     });
     return (
       React.createElement("ul", null, 
         productNodes
+      )
+    );
+  }
+});
+
+var Product = React.createClass({displayName: "Product",
+  render: function() {
+    var product = this.props.product;
+    return (
+      React.createElement("li", {className: "product"}, 
+        React.createElement(ProductImage, {product: product}), 
+        React.createElement("p", null, 
+          React.createElement("span", {className: "inactive"}, product.designer), 
+          React.createElement("br", null), 
+          React.createElement("span", {className: "intro smaller"}, product.name), 
+          React.createElement("br", null)
+        ), 
+          React.createElement("span", null, product.price)
       )
     );
   }
@@ -65,7 +74,6 @@ var ProductImage = React.createClass({displayName: "ProductImage",
 });
 
 var source = "/api/products/?offset=0&limit=60";
-  debugger;
 
 React.render(
   React.createElement(Shop, {source: source}),
