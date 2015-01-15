@@ -18,6 +18,7 @@ var ProductList = React.createClass({
   },
 
   componentDidMount: function() {
+debugger;
     $.get(this.props.source, function(products) {
       if (this.isMounted()) {
         this.setState({
@@ -50,7 +51,7 @@ var ProductList = React.createClass({
   }
 });
 
-var source = "http://localhost:3000/api/products/?offset=0&limit=60";
+var source = "/api/products/?offset=0&limit=60";
 
 React.render(
   <Shop source={source}/>,
