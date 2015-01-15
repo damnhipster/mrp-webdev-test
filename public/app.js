@@ -18,7 +18,6 @@ var ProductList = React.createClass({displayName: "ProductList",
   },
 
   componentDidMount: function() {
-debugger;
     $.get(this.props.source, function(products) {
       if (this.isMounted()) {
         this.setState({
@@ -32,7 +31,7 @@ debugger;
     var productNodes = this.state.products.map(function (product) {
       return (
         React.createElement("li", {className: "product"}, 
-          React.createElement("img", {src: product.image}), 
+          React.createElement(ProductImage, {product: product}), 
           React.createElement("p", null, 
             React.createElement("span", {className: "inactive"}, product.designer), 
             React.createElement("br", null), 
@@ -51,7 +50,22 @@ debugger;
   }
 });
 
+var ProductImage = React.createClass({displayName: "ProductImage",
+  render: function () {
+    var image;
+    if(window.devicePixelRatio < 1.3) {
+      image = this.props.product.image;
+    } else {
+      image = this.props.product.largeImage;
+    }
+    return (
+      React.createElement("img", {src: image})
+    );
+  }
+});
+
 var source = "/api/products/?offset=0&limit=60";
+  debugger;
 
 React.render(
   React.createElement(Shop, {source: source}),
