@@ -1,25 +1,15 @@
 /** @jsx React.DOM */
-var Shop = React.createClass({displayName: "Shop",
-  render: function () {
-    return (
-      React.createElement("div", {id: "shop"}, 
-        React.createElement("h1", {className: "page-title"}, "Mr. Porters' Shop"), 
-        React.createElement(ProductList, {source: this.props.source})
-      )
-    );
-  }
-});
-
-var ProductList = React.createClass({displayName: "ProductList",
+var Shop = React.createClass({displayName: 'Shop',
   getInitialState: function() {
     return {
-      products: []
+      products: [],
     };
   },
 
   componentDidMount: function() {
     $.get(this.props.source, function(products) {
       if (this.isMounted()) {
+debugger;
         this.setState({
           products: products.data
         });
@@ -28,29 +18,90 @@ var ProductList = React.createClass({displayName: "ProductList",
   },
 
   render: function () {
-    var productNodes = this.state.products.map(function (product) {
-      return (
-        React.createElement("li", {className: "product"}, 
-          React.createElement(ProductImage, {product: product}), 
-          React.createElement("p", null, 
-            React.createElement("span", {className: "inactive"}, product.designer), 
-            React.createElement("br", null), 
-            React.createElement("span", {className: "intro smaller"}, product.name), 
-            React.createElement("br", null)
-          ), 
-            React.createElement("span", null, product.price)
-        )
-      );
-    });
     return (
-      React.createElement("ul", null, 
-        productNodes
+      React.DOM.div({id: "shop"}, 
+        React.DOM.h1({className: "page-title"}, "Mr. Porters' Shop"), 
+        ProductList({products: this.state.products})
       )
     );
   }
 });
 
-var ProductImage = React.createClass({displayName: "ProductImage",
+var Product = React.createClass({displayName: 'Product',
+  render: function () {
+    React.DOM.li({className: "product"}, 
+      ProductImage({product: product}), 
+      React.DOM.p(null, 
+        React.DOM.span({className: "inactive"}, product.designer), 
+        React.DOM.br(null), 
+        React.DOM.span({className: "intro smaller"}, product.name), 
+        React.DOM.br(null)
+      ), 
+        React.DOM.span(null, product.price)
+    )
+  }
+});
+
+
+
+var ProductList = React.createClass({displayName: 'ProductList',
+  getInitialState: function() {
+    return {
+      hasMore: true,
+      productsToDisplay: [{designer:"hello", name:"", price:"", image:"", largeImage:""}]
+    };
+  },
+
+  nextProducts: function(offset, products) {
+    var productsPerPage = 6;
+    var newProducts = products.data[offset, offset+productsPerPage];
+    return newProducts.map(function (product) {
+      return (
+        Product({product: product})
+      );
+    });
+  },
+
+  handleInfiniteLoad: function() {
+    var that = this;
+    this.setState({
+      isInfiniteLoading: true
+    });
+    var productLength = that.state.productsToDisplay.length;
+        newProducts = that.nextProducts(productLength, this.props.products);
+    that.setState({
+        isInfiniteLoading: false,
+        productsToDisplay: that.state.productsToDisplay.concat(newProducts)
+    });
+  },
+
+
+  elementInfiniteLoad: function() {
+    return (
+      React.DOM.div({className: "infinite-list-item"}, 
+        "Loading..."
+      )
+    );
+  },
+
+  render: function () {
+debugger;
+    return (
+      React.DOM.ul(null, 
+        Infinite({containerHeight: 800, 
+                  elementHeight: 395, 
+                  onInfiniteLoad: this.handleInfiniteLoad, 
+                  isInfiniteLoading: this.state.isInfiniteLoading, 
+                  loadingSpinnerDelegate: this.elementInfiniteLoad()
+                  }, 
+          this.state.productsToDisplay
+        )
+      )
+    );
+  }
+});
+
+var ProductImage = React.createClass({displayName: 'ProductImage',
   render: function () {
     var image;
     if(window.devicePixelRatio < 1.3) {
@@ -59,15 +110,14 @@ var ProductImage = React.createClass({displayName: "ProductImage",
       image = this.props.product.largeImage;
     }
     return (
-      React.createElement("img", {src: image})
+      React.DOM.img({src: image})
     );
   }
 });
 
-var source = "/api/products/?offset=0&limit=60";
-  debugger;
+var source = "/api/products/";
 
-React.render(
-  React.createElement(Shop, {source: source}),
+React.renderComponent(
+  Shop({source: source}),
   document.getElementById('app')
 );

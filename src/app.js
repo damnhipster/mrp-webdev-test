@@ -1,25 +1,15 @@
 /** @jsx React.DOM */
 var Shop = React.createClass({
-  render: function () {
-    return (
-      <div id='shop'>
-        <h1 className="page-title">Mr. Porters' Shop</h1>
-        <ProductList source={this.props.source}/>
-      </div>
-    );
-  }
-});
-
-var ProductList = React.createClass({
   getInitialState: function() {
     return {
-      products: []
+      products: [],
     };
   },
 
   componentDidMount: function() {
     $.get(this.props.source, function(products) {
       if (this.isMounted()) {
+debugger;
         this.setState({
           products: products.data
         });
@@ -28,23 +18,85 @@ var ProductList = React.createClass({
   },
 
   render: function () {
-    var productNodes = this.state.products.map(function (product) {
+    return (
+      <div id='shop'>
+        <h1 className="page-title">Mr. Porters' Shop</h1>
+        <ProductList products={this.state.products}/>
+      </div>
+    );
+  }
+});
+
+var Product = React.createClass({
+  render: function () {
+    <li className="product">
+      <ProductImage product={product}/>
+      <p>
+        <span className="inactive">{product.designer}</span>
+        <br/>
+        <span className="intro smaller">{product.name}</span>
+        <br/>
+      </p>
+        <span>{product.price}</span>
+    </li>
+  }
+});
+
+
+
+var ProductList = React.createClass({
+  getInitialState: function() {
+    return {
+      hasMore: true,
+      productsToDisplay: [{designer:"hello", name:"", price:"", image:"", largeImage:""}]
+    };
+  },
+
+  nextProducts: function(offset, products) {
+    var productsPerPage = 6;
+    var newProducts = products.data[offset, offset+productsPerPage];
+    return newProducts.map(function (product) {
       return (
-        <li className="product">
-          <ProductImage product={product}/>
-          <p>
-            <span className="inactive">{product.designer}</span>
-            <br/>
-            <span className="intro smaller">{product.name}</span>
-            <br/>
-          </p>
-            <span>{product.price}</span>
-        </li>
+        <span className="inactive">{product.designer}</span>
+        <br/>
       );
     });
+  },
+
+  handleInfiniteLoad: function() {
+    var that = this;
+    this.setState({
+      isInfiniteLoading: true
+    });
+    var productLength = that.state.productsToDisplay.length;
+        newProducts = that.nextProducts(productLength, this.props.products);
+    that.setState({
+        isInfiniteLoading: false,
+        productsToDisplay: that.state.productsToDisplay.concat(newProducts)
+    });
+  },
+
+
+  elementInfiniteLoad: function() {
+    return (
+      <div className="infinite-list-item">
+        Loading...
+      </div>
+    );
+  },
+
+  render: function () {
+debugger;
     return (
       <ul>
-        {productNodes}
+        <Infinite containerHeight={800}
+                  elementHeight={395}
+                  onInfiniteLoad={this.handleInfiniteLoad}
+                  isInfiniteLoading={this.state.isInfiniteLoading}
+                  loadingSpinnerDelegate={this.elementInfiniteLoad()}
+                  >
+          {this.state.productsToDisplay}
+        </Infinite>
       </ul>
     );
   }
@@ -64,10 +116,9 @@ var ProductImage = React.createClass({
   }
 });
 
-var source = "/api/products/?offset=0&limit=60";
-  debugger;
+var source = "/api/products/";
 
-React.render(
+React.renderComponent(
   <Shop source={source}/>,
   document.getElementById('app')
 );
